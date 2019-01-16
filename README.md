@@ -1,2 +1,2 @@
-# mysqlcluster
-mysql cluster docker image builder
+# 说明
+自动构建mysql主、从节点镜像
