@@ -1,0 +1,29 @@
+sudo: required
+
+services:
+  - docker
+
+language: bash
+
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::7}
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+  #TAG
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+
+  # mysql master
+  - export CONFIG=litian/mysql-master
+  - docker build -t $CONFIG:$COMMIT ./mysql5.7/master
+  - docker tag $CONFIG:$COMMIT $CONFIG:$TAG
+  - docker push $CONFIG
+
+  # mysql slave
+  - export REGISTRY=litian/mysql-slave
+  - docker build -t $REGISTRY:$COMMIT ./mysql5.7/slave
+  - docker tag $REGISTRY:$COMMIT $REGISTRY:$TAG
+  - docker push $REGISTRY
