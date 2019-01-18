@@ -29,7 +29,7 @@ after_success:
   - docker push $REGISTRY
 
   # es 6.5.4
-    - export ES=litian/es
+  - export ES=litian/es
   - docker build -t $ES:$COMMIT ./es6.5.4/
   - docker tag $ES:$COMMIT $ES:$TAG
   - docker push $ES
