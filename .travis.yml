@@ -27,3 +27,9 @@ after_success:
   - docker build -t $REGISTRY:$COMMIT ./mysql5.7/slave
   - docker tag $REGISTRY:$COMMIT $REGISTRY:$TAG
   - docker push $REGISTRY
+
+  # es 6.5.4
+    - export ES=litian/es
+  - docker build -t $ES:$COMMIT ./es6.5.4/
+  - docker tag $ES:$COMMIT $ES:$TAG
+  - docker push $ES
